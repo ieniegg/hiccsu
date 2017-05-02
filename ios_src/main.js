@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Navigator} from 'react-native'
-import Homepage from './pages/homepage'
+import Homepage from './homepage'
 
 
 function main() {
