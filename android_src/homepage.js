@@ -47,7 +47,10 @@ export default class Homepage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TabNavigator>
+                <TabNavigator
+                    tabBarStyle={{opacity: 0.9,}}
+                    sceneStyle={{paddingBottom: 0}}
+                >
                     {this._renderTab(Home, 'tb_home', '首页', require('../res/images/main.png'), require('../res/images/main_select.png'))}
                     {this._renderTab(Query, 'tb_query', '查询', require('../res/images/query.png'), require('../res/images/query_select.png'))}
                     {this._renderTab(User, 'tb_user', '个人', require('../res/images/user.png'), require('../res/images/user_select.png'))}
@@ -61,7 +64,7 @@ export default class Homepage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eeeeee'
+        backgroundColor: '#fff'
     },
     icon: {
         height: 28,
