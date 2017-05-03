@@ -78,7 +78,7 @@ export default class Vista extends Component {
                         />
                     }
                     dataSource={this.state.ds}
-                    contentInset={{top: 106, left: 0, bottom: 49, right: 0} }
+                    contentInset={{top: 46, left: 0, bottom: 49, right: 0} }
                     renderRow={(row) => (
                         <TouchableOpacity onPress={() => {
                         }}>

@@ -21,6 +21,12 @@ export default class User extends Component {
         }
     }
 
+    static navigatorStyle = {
+        navBarHidden:true,
+        drawUnderNavBar: true,
+        navBarTranslucent: true
+    };
+
     render() {
         return (
         <View style={{flex:1}}>

@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {
-    View, StyleSheet,StatusBar,Dimensions
+    View, StyleSheet, Dimensions
 }from 'react-native';
-import NavigationBar from '../../util/NavigationBar'
 import {TabViewAnimated, TabBar} from 'react-native-tab-view'
 
 import Vista from './home/vista'
-
 
 export default class Home extends Component {
 
@@ -23,30 +21,27 @@ export default class Home extends Component {
         }
     }
 
-
-    _heightCompute(height) {
-        console.log(height)
-        if (height > 0 && height < 94) {
-            if (height <= 44) {
-                this.setState({
-                    tabBarHeight: 44 - height
-                })
-            } else {
-                this.setState({
-                    navigationBarHeight: 50 - height + 44
-                })
-            }
-        }
-    }
+    static navigatorStyle = {
+        drawUnderNavBar: true,
+        navBarTranslucent: false,
+        navBarNoBorder: true,
+        drawUnderNavBar: true,
+        navBarHideOnScroll: false,
+        statusBarTextColorScheme:'dark',
+        statusBarTextColorSchemeSingleScreen: 'dark',
+        drawUnderTabBar: true,
+        statusBarHideWithNavBar: true
+    };
 
     _handleChangeTab = (index) => {
         this.setState({index})
     }
 
     _renderHeader = (props) => {
-        return <TabBar style={{backgroundColor:'rgba(255,255,255,0.95)',width:window.width,position:'absolute',top:60}}
-                       labelStyle={{color: '#000'}}
-                       indicatorStyle={{backgroundColor: '#000'}} {...props} />
+        return <TabBar
+            style={{backgroundColor: 'rgba(255, 255, 255, 1)', width: window.width, position: 'absolute'}}
+            labelStyle={{color: '#000'}}
+            indicatorStyle={{backgroundColor: '#000'}} {...props} />
     }
 
     _renderScene = ({route}) => {
@@ -69,16 +64,6 @@ export default class Home extends Component {
             <View style={{
                 flex: 1
             }}>
-
-                <NavigationBar
-                    style={{backgroundColor:'rgba(255,255,255,0.95)',height:60,width:window.width,position:'absolute',zIndex:2}}
-                    statusBar={{
-                        barStyle: 'dark-content',
-                        hidden: false,
-                    }}
-                    title={'广场'}
-                    popEnabled={false}
-                />
                 <TabViewAnimated
                     lazy={true}
                     style={styles.container}

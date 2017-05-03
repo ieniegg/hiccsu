@@ -1,7 +1,3 @@
-import {
-    AppRegistry,
-} from 'react-native';
+import App from './ios_src/app';
 
-import main from './ios_src/main'
-
-AppRegistry.registerComponent('hiccsu', () => main);
+const app = new App();
