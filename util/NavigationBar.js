@@ -17,7 +17,7 @@ const NAV_BAR_HEIGHT_IOS = 44;
 const NAV_BAR_HEIGHT_ANDROID = 50;
 const STATUS_BAR_HEIGHT = 20;
 const StatusBarShape = {
-    barStyle: PropTypes.oneOf(['light-content', 'default',]),
+    barStyle: PropTypes.oneOf(['light-content', 'default', 'dark-content']),
     hidden: PropTypes.bool,
     backgroundColor: PropTypes.string,
 };
@@ -26,20 +26,21 @@ export default class NavigationBar extends Component {
         style: View.propTypes.style,
         title: PropTypes.string,
         titleView: PropTypes.element,
-        titleStyle:View.propTypes.style,
-        titleLayoutStyle:View.propTypes.style,
+        titleStyle: View.propTypes.style,
+        titleLayoutStyle: View.propTypes.style,
         hide: PropTypes.bool,
         statusBar: PropTypes.shape(StatusBarShape),
-        rightButton:  PropTypes.element,
+        rightButton: PropTypes.element,
         leftButton: PropTypes.element,
 
     }
     static defaultProps = {
         statusBar: {
-            barStyle: 'default',
+            barStyle: 'dark-content',
             hidden: false,
         },
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -51,7 +52,7 @@ export default class NavigationBar extends Component {
     getButtonElement(data) {
         return (
             <View style={styles.navBarButton}>
-                {data? data : null}
+                {data ? data : null}
             </View>
         );
     }
@@ -60,15 +61,16 @@ export default class NavigationBar extends Component {
         let statusBar = !this.props.statusBar.hidden ?
             <View style={styles.statusBar}>
                 <StatusBar {...this.props.statusBar} />
-            </View>: null;
+            </View> : null;
 
         let titleView = this.props.titleView ? this.props.titleView :
-            <Text ellipsizeMode="head" numberOfLines={1} style={[styles.title,this.props.titleStyle]}>{this.props.title}</Text>;
+            <Text ellipsizeMode="head" numberOfLines={1}
+                  style={[styles.title, this.props.titleStyle]}>{this.props.title}</Text>;
 
         let content = this.props.hide ? null :
             <View style={styles.navBar}>
                 {this.getButtonElement(this.props.leftButton)}
-                <View style={[styles.navBarTitleContainer,this.props.titleLayoutStyle]}>
+                <View style={[styles.navBarTitleContainer, this.props.titleLayoutStyle]}>
                     {titleView}
                 </View>
                 {this.getButtonElement(this.props.rightButton)}
@@ -109,7 +111,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     statusBar: {
-        height: Platform.OS === 'ios' ? STATUS_BAR_HEIGHT:0,
-
+        height: Platform.OS === 'ios' ? STATUS_BAR_HEIGHT : 0,
     },
 })
