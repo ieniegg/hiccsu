@@ -1,0 +1,147 @@
+import React, {Component} from 'react';
+import {
+    View,
+    Image,
+    Dimensions,
+    ScrollView,
+    TextInput,
+    TouchableOpacity
+}from 'react-native';
+
+import {BlurView, VibrancyView} from 'react-native-blur'
+import Button from 'react-native-button'
+
+export default class Login extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            mobile: '',
+            password: ''
+        }
+    }
+
+    static navigatorStyle = {
+        navBarHidden: true,
+        drawUnderNavBar: true,
+        navBarTranslucent: true,
+        tabBarHidden: true,
+    };
+
+    render() {
+        return (
+            <View style={{flex: 1}}>
+                <Image style={{width: window.width, height: window.height, resizeMode: Image.resizeMode.cover}}
+                       source={require('../../res/images/register_bg.jpg')}>
+                    <BlurView
+                        style={{
+                            position: "absolute",
+                            top: 0, left: 0, bottom: 0, right: 0,
+                        }}
+                        blurType="dark"
+                        blurAmount={10}
+                    />
+                    <View style={{
+                        width: window.width,
+                        marginLeft: 10,
+                        marginTop: 30,
+                        justifyContent: 'flex-start',
+                        flexDirection: 'row'
+                    }}>
+                        <TouchableOpacity onPress={()=>{
+                            this.props.navigator.pop({
+                                animated: true
+                            })
+                        }}>
+                        <Image style={{width: 25, height: 25, resizeMode: Image.resizeMode.contain}}
+                               source={require('../../res/images/ic_close_white_36pt.png')}/>
+                        </TouchableOpacity>
+                    </View>
+
+                    <ScrollView scrollEnabled={false} style={{flex: 1, flexDirection: 'column'}}>
+                        <View style={{
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                            marginTop: 40,
+                        }}>
+                            <Image style={{width: 140, height: 40, resizeMode: Image.resizeMode.contain}}
+                                   source={require('../../res/images/logo_light.png')}/>
+                        </View>
+                        <View style={{
+                            marginTop: 60,
+                            paddingLeft: 60,
+                            paddingRight: 60,
+                        }}>
+                            <TextInput
+                                maxLength={11}
+                                enablesReturnKeyAutomatically={true}
+                                placeholderTextColor="#7e7e7e"
+                                clearButtonMode="while-editing"
+                                returnKeyType="next"
+                                placeholder="手机号"
+                                keyboardType="numbers-and-punctuation"
+                                blurOnSubmit={true}
+                                style={{
+                                    height: 40,
+                                    borderRadius: 20,
+                                    textAlign: 'center',
+                                    backgroundColor: 'rgba(255,255,255,0.9)'
+                                }}
+                                onChangeText={(text) => this.setState({mobile: text})}
+                                value={this.state.mobile}
+                                onSubmitEditing={() => {
+                                    this._passwordInput.focus();
+                                }}
+                            />
+                            <TextInput
+                                ref={(c) => this._passwordInput = c}
+                                secureTextEntry={true}
+                                placeholderTextColor="#7e7e7e"
+                                clearButtonMode="while-editing"
+                                returnKeyType="done"
+                                placeholder="密码"
+                                blurOnSubmit={true}
+                                style={{
+                                    marginTop: 20,
+                                    height: 40,
+                                    borderRadius: 20,
+                                    textAlign: 'center',
+                                    backgroundColor: 'rgba(255,255,255,0.9)'
+                                }}
+                                onChangeText={(text) => this.setState({password: text})}
+                                value={this.state.password}
+                            />
+                        </View>
+                        <View style={{
+                            marginTop: 120,
+                            paddingLeft: 60,
+                            paddingRight: 60,
+                        }}>
+                            <Button
+                                onPress={() => {
+                                }}
+                                containerStyle={{
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                    height: 40,
+                                    borderRadius:20,
+                                    borderWidth:1,
+                                    borderColor:'#ffffff',
+                                    overflow: 'hidden',
+                                    backgroundColor: 'rgba(0,0,0,0)'
+                                }}
+                                style={{fontSize: 18, color: '#fff'}}>
+                                登录
+                            </Button>
+                        </View>
+                    </ScrollView>
+                </Image>
+            </View>
+        )
+    }
+
+}
+
+const window = Dimensions.get('window');
+

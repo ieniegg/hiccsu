@@ -10,6 +10,7 @@
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
     "react-native-blur": "^3.0.0-alpha",
+    "react-native-button": "^1.8.2",
     "react-native-deprecated-custom-components": "^0.1.0",
     "react-native-easy-toast": "^1.0.5",
     "react-native-navigation": "^1.1.1",
