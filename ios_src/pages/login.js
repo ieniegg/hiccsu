@@ -11,6 +11,8 @@ import {
 import {BlurView, VibrancyView} from 'react-native-blur'
 import Button from 'react-native-button'
 
+import HttpUtils from '../../util/HttpUtils'
+
 export default class Login extends Component {
 
     constructor(props) {
@@ -27,6 +29,19 @@ export default class Login extends Component {
         navBarTranslucent: true,
         tabBarHidden: true,
     };
+
+
+    _login() {
+        this.props.navigator.showLightBox({
+            screen: "loadingModal",
+            passProps: {text:'登陆中'}
+        })
+        HttpUtils.postJson('api/app/user/login',{
+            mobile:this.state.mobile,
+            password:this.state.password
+        })
+
+    }
 
     render() {
         return (
@@ -48,13 +63,13 @@ export default class Login extends Component {
                         justifyContent: 'flex-start',
                         flexDirection: 'row'
                     }}>
-                        <TouchableOpacity onPress={()=>{
+                        <TouchableOpacity onPress={() => {
                             this.props.navigator.pop({
                                 animated: true
                             })
                         }}>
-                        <Image style={{width: 25, height: 25, resizeMode: Image.resizeMode.contain}}
-                               source={require('../../res/images/ic_close_white_36pt.png')}/>
+                            <Image style={{width: 25, height: 25, resizeMode: Image.resizeMode.contain}}
+                                   source={require('../../res/images/ic_close_white_36pt.png')}/>
                         </TouchableOpacity>
                     </View>
 
@@ -64,13 +79,13 @@ export default class Login extends Component {
                             flexDirection: 'row',
                             marginTop: 40,
                         }}>
-                            <Image style={{width: 140, height: 40, resizeMode: Image.resizeMode.contain}}
+                            <Image style={{width: 160, height: 60, resizeMode: Image.resizeMode.contain}}
                                    source={require('../../res/images/logo_light.png')}/>
                         </View>
                         <View style={{
                             marginTop: 60,
-                            paddingLeft: 60,
-                            paddingRight: 60,
+                            paddingLeft: 50,
+                            paddingRight: 50,
                         }}>
                             <TextInput
                                 maxLength={11}
@@ -82,8 +97,8 @@ export default class Login extends Component {
                                 keyboardType="numbers-and-punctuation"
                                 blurOnSubmit={true}
                                 style={{
-                                    height: 40,
-                                    borderRadius: 20,
+                                    height: 46,
+                                    borderRadius: 23,
                                     textAlign: 'center',
                                     backgroundColor: 'rgba(255,255,255,0.9)'
                                 }}
@@ -103,8 +118,8 @@ export default class Login extends Component {
                                 blurOnSubmit={true}
                                 style={{
                                     marginTop: 20,
-                                    height: 40,
-                                    borderRadius: 20,
+                                    height: 46,
+                                    borderRadius: 23,
                                     textAlign: 'center',
                                     backgroundColor: 'rgba(255,255,255,0.9)'
                                 }}
@@ -114,20 +129,21 @@ export default class Login extends Component {
                         </View>
                         <View style={{
                             marginTop: 120,
-                            paddingLeft: 60,
-                            paddingRight: 60,
+                            paddingLeft: 50,
+                            paddingRight: 50,
                         }}>
                             <Button
                                 onPress={() => {
+                                    this._login()
                                 }}
                                 containerStyle={{
                                     flexDirection: 'column',
                                     justifyContent: 'center',
                                     width: '100%',
-                                    height: 40,
-                                    borderRadius:20,
-                                    borderWidth:1,
-                                    borderColor:'#ffffff',
+                                    height: 46,
+                                    borderRadius: 23,
+                                    borderWidth: 1,
+                                    borderColor: '#ffffff',
                                     overflow: 'hidden',
                                     backgroundColor: 'rgba(0,0,0,0)'
                                 }}
