@@ -11,10 +11,8 @@ import {
     DeviceEventEmitter
 }from 'react-native';
 import {Cell, CellGroup} from 'react-native-cell-components';
-import ParallaxScrollView from 'react-native-parallax-scroll-view'
-
-import Icon from 'react-native-vector-icons/FontAwesome'
 import Storage from '../../../util/Storage'
+import HttpUtils from '../../../util/HttpUtils'
 
 export default class UserConfig extends Component {
 
@@ -29,8 +27,35 @@ export default class UserConfig extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            user: {}
+    }
+
+    _logout() {
+        this.props.navigator.showLightBox({
+            screen: "loadingModal",
+            passProps: {text: '注销中'}
+        })
+        Storage.remove({key:'session'})
+        Storage.remove({key:'user'}).then(()=>{
+            HttpUtils.get('api/app/user/logout').then(res=>{
+                this.props.navigator.dismissLightBox()
+                DeviceEventEmitter.emit('userRefresh',{})
+                this.props.navigator.pop()
+            }).catch(err=>{
+                this.props.navigator.dismissLightBox()
+                this.props.navigator.pop()
+            })
+        })
+    }
+
+    _renderLogout() {
+        if (this.props.user) {
+            return (
+
+                    <Cell  onPress={()=>{
+                        this._logout()
+                    }} title="注销登录" disclosure="chevron-right" icon="sign-out"/>
+
+            )
         }
     }
 
@@ -39,11 +64,13 @@ export default class UserConfig extends Component {
         return (
             <View style={{flex: 1}}>
                 <StatusBar barStyle='dark-content'/>
-                <ScrollView
-                    contentInset={{top: 44, left: 0, bottom: 0, right: 0}}
-                >
+                <ScrollView>
+                    <View style={{height: 44}}/>
                     <CellGroup>
-                        <Cell title="Package" icon="code" value="react-native-cell-components" />
+                        <Cell title="版本" onPress={() => {}} value="Beta 1.0 (Build 20170505)" icon="versions"/>
+                        {
+                            this._renderLogout()
+                        }
                     </CellGroup>
                 </ScrollView>
             </View>

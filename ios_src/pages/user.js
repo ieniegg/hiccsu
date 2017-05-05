@@ -12,7 +12,7 @@ import {
 }from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/Octicons'
 import Storage from '../../util/Storage'
 
 export default class User extends Component {
@@ -48,10 +48,8 @@ export default class User extends Component {
         Storage.load({
             key: 'user',
         }).then(ret => {
-            console.log(ret)
             this.setState({user: ret})
         }).catch(err => {
-            console.log(err)
             this.setState({user: {}})
         });
     }
@@ -128,8 +126,7 @@ export default class User extends Component {
                                 <View key="parallax-header" style={ styles.parallaxHeader }>
                                     <View style={{
                                         width: window.width,
-                                        marginRight: 20,
-                                        marginRight: 20,
+                                        marginRight: 25,
                                         justifyContent: 'flex-end',
                                         flexDirection: 'row'
                                     }}>
@@ -137,12 +134,13 @@ export default class User extends Component {
                                             this.props.navigator.push({
                                                 screen: 'UserConfigScreen',
                                                 animated: true,
-                                                title:'设置',
-                                                backButtonTitle: '',
+                                                title: '更多',
+                                                passProps: {user: this.state.user},
+                                                backButtonTitle: ''
                                             })
                                         }}>
-                                        <Icon style={{backgroundColor: 'rgba(0,0,0,0)'}} name="cog" size={24}
-                                              color="#ffffff"/>
+                                            <Icon style={{backgroundColor: 'rgba(0,0,0,0)'}} name="three-bars" size={24}
+                                                  color="#ffffff"/>
                                         </TouchableOpacity>
                                     </View>
                                     <Image source={{uri: this.state.user.Avatar}} style={ styles.avatar }/>
@@ -159,7 +157,7 @@ export default class User extends Component {
 }
 
 const window = Dimensions.get('window');
-const PARALLAX_HEADER_HEIGHT = 240;
+const PARALLAX_HEADER_HEIGHT = 280;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -179,7 +177,9 @@ const styles = StyleSheet.create({
         paddingTop: 25
     },
     avatar: {
-        marginTop: 15,
+        borderWidth:2,
+        borderColor:'#fff',
+        marginTop: 40,
         width: 100,
         height: 100,
         backgroundColor: '#fff',
