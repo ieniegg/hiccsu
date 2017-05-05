@@ -36,7 +36,7 @@ export default class Vista extends Component {
 
     _refreshVista() {
         this.setState({refresh: true})
-        HttpUtils.postJson('/api/app/vista/list').then(res => {
+        HttpUtils.postJson('api/app/vista/list').then(res => {
             this.setState({refresh: false})
             if (res.status === 10000) {
                 this._vista = res.vistas

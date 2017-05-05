@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
     View, StyleSheet, Dimensions
-}from 'react-native';
+}from 'react-native'
 import {TabViewAnimated, TabBar} from 'react-native-tab-view'
 
 import Vista from './home/vista'
@@ -25,7 +25,6 @@ export default class Home extends Component {
         drawUnderNavBar: true,
         navBarTranslucent: false,
         navBarNoBorder: true,
-        drawUnderNavBar: true,
         navBarHideOnScroll: false,
         statusBarTextColorScheme:'dark',
         statusBarTextColorSchemeSingleScreen: 'dark',

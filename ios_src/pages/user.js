@@ -14,6 +14,11 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
 import Icon from 'react-native-vector-icons/Octicons'
 import Storage from '../../util/Storage'
+import {TabViewAnimated, TabBar} from 'react-native-tab-view'
+import {BlurView, VibrancyView} from 'react-native-blur'
+
+
+import Campus from './user/campus'
 
 export default class User extends Component {
 
@@ -27,8 +32,13 @@ export default class User extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-            user: {}
+            user: {},
+            index: 0,
+            routes: [
+                {key: '1', title: '校园'},
+                {key: '2', title: '活动'},
+                {key: '3', title: '随拍'}
+            ]
         }
     }
 
@@ -43,6 +53,30 @@ export default class User extends Component {
         this.subscription.remove()
     }
 
+
+    _handleChangeTab = (index) => {
+        this.setState({index})
+    }
+
+    _renderHeader = (props) => {
+        return <TabBar
+            style={{backgroundColor: 'rgba(255, 255, 255, 0)', width: window.width, position: 'absolute'}}
+            labelStyle={{color: '#fff'}}
+            indicatorStyle={{backgroundColor: '#fff'}} {...props} />
+    }
+
+    _renderScene = ({route}) => {
+        switch (route.key) {
+            case '1':
+                return <Campus user={this.state.user}/>;
+            case '2':
+                return <View style={[styles.page]}/>;
+            case '3':
+                return <View style={[styles.page]}/>;
+            default:
+                return null;
+        }
+    }
 
     _loadUser() {
         Storage.load({
@@ -94,62 +128,71 @@ export default class User extends Component {
         return (
             <View style={{flex: 1}}>
                 <StatusBar barStyle='light-content'/>
-                <ListView
-                    ref="ListView"
-                    style={styles.container}
-                    dataSource={ this.state.dataSource }
-                    renderRow={(rowData) => (
-                        <View>
+                <ParallaxScrollView
+                    headerBackgroundColor="#333"
+                    parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+                    backgroundSpeed={10}
+                    renderBackground={() => (
+                        <View key="background">
+                            <BlurView
+                                style={{
+                                    zIndex: 1,
+                                    position: "absolute",
+                                    top: 0, left: 0, bottom: 0, right: 0,
+                                }}
+                                blurType="light"
+                                blurAmount={5}
+                            />
+                            <Image style={{
+                                width: window.width,
+                                height: PARALLAX_HEADER_HEIGHT,
+                                resizeMode: Image.resizeMode.cover
+                            }} source={require('../../res/images/user_bg.jpg')}/>
+                            <View style={{
+                                position: 'absolute',
+                                top: 0,
+                                width: window.width,
+                                height: PARALLAX_HEADER_HEIGHT
+                            }}/>
                         </View>
                     )}
-                    renderScrollComponent={props => (
-                        <ParallaxScrollView
-                            headerBackgroundColor="#333"
-                            parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-                            backgroundSpeed={10}
-                            renderBackground={() => (
-                                <View key="background">
-                                    <Image style={{
-                                        width: window.width,
-                                        height: PARALLAX_HEADER_HEIGHT,
-                                        resizeMode: Image.resizeMode.cover
-                                    }} source={require('../../res/images/user_bg.jpg')}/>
-                                    <View style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        width: window.width,
-                                        height: PARALLAX_HEADER_HEIGHT
-                                    }}/>
-                                </View>
-                            )}
-                            renderForeground={() => (
-                                <View key="parallax-header" style={ styles.parallaxHeader }>
-                                    <View style={{
-                                        width: window.width,
-                                        marginRight: 25,
-                                        justifyContent: 'flex-end',
-                                        flexDirection: 'row'
-                                    }}>
-                                        <TouchableOpacity onPress={() => {
-                                            this.props.navigator.push({
-                                                screen: 'UserConfigScreen',
-                                                animated: true,
-                                                title: '更多',
-                                                passProps: {user: this.state.user},
-                                                backButtonTitle: ''
-                                            })
-                                        }}>
-                                            <Icon style={{backgroundColor: 'rgba(0,0,0,0)'}} name="three-bars" size={24}
-                                                  color="#ffffff"/>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <Image source={{uri: this.state.user.Avatar}} style={ styles.avatar }/>
-                                    {this._renderUsername()}
-                                </View>
-                            )}
-                        />
+                    renderForeground={() => (
+                        <View key="parallax-header" style={ styles.parallaxHeader }>
+                            <View style={{
+                                width: window.width,
+                                marginRight: 25,
+                                justifyContent: 'flex-end',
+                                flexDirection: 'row'
+                            }}>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigator.push({
+                                        screen: 'UserConfigScreen',
+                                        animated: true,
+                                        title: '更多',
+                                        passProps: {user: this.state.user},
+                                        backButtonTitle: ''
+                                    })
+                                }}>
+                                    <Icon style={{backgroundColor: 'rgba(0,0,0,0)'}} name="three-bars" size={24}
+                                          color="#ffffff"/>
+                                </TouchableOpacity>
+                            </View>
+                            <Image source={{uri: this.state.user.Avatar}} style={ styles.avatar }/>
+                            {this._renderUsername()}
+                        </View>
                     )}
-                />
+                >
+                    <View style={{height: window.height, marginTop: -46}}>
+                        <TabViewAnimated
+                            lazy={true}
+                            style={styles.container}
+                            navigationState={this.state}
+                            renderHeader={this._renderHeader}
+                            renderScene={this._renderScene}
+                            onRequestChangeTab={this._handleChangeTab}
+                        />
+                    </View>
+                </ParallaxScrollView>
             </View>
         )
     }
@@ -157,11 +200,15 @@ export default class User extends Component {
 }
 
 const window = Dimensions.get('window');
-const PARALLAX_HEADER_HEIGHT = 280;
+const PARALLAX_HEADER_HEIGHT = 300;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black'
+    },
+    page: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     background: {
         position: 'absolute',
@@ -172,14 +219,13 @@ const styles = StyleSheet.create({
     },
     parallaxHeader: {
         alignItems: 'center',
-        flex: 1,
         flexDirection: 'column',
         paddingTop: 25
     },
     avatar: {
-        borderWidth:2,
-        borderColor:'#fff',
-        marginTop: 40,
+        borderWidth: 2,
+        borderColor: '#fff',
+        marginTop: 30,
         width: 100,
         height: 100,
         backgroundColor: '#fff',
