@@ -5,13 +5,18 @@ import {
     Dimensions,
     ScrollView,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter,
+    AsyncStorage
 }from 'react-native';
 
 import {BlurView, VibrancyView} from 'react-native-blur'
 import Button from 'react-native-button'
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 import HttpUtils from '../../util/HttpUtils'
+import DeviceInfo from 'react-native-device-info'
+import Storage from '../../util/Storage'
 
 export default class Login extends Component {
 
@@ -28,17 +33,35 @@ export default class Login extends Component {
         drawUnderNavBar: true,
         navBarTranslucent: true,
         tabBarHidden: true,
-    };
-
+    }
 
     _login() {
+        if (!this.state.mobile || !this.state.password) {
+            this.refs.toast.show('内容填写不完整')
+            return
+        }
         this.props.navigator.showLightBox({
             screen: "loadingModal",
-            passProps: {text:'登陆中'}
+            passProps: {text: '登陆中'}
         })
-        HttpUtils.postJson('api/app/user/login',{
-            mobile:this.state.mobile,
-            password:this.state.password
+        HttpUtils.postJson('api/app/user/login', {
+            mobile: this.state.mobile,
+            password: this.state.password,
+            device: DeviceInfo.getUniqueID()
+        }).then(res => {
+            this.props.navigator.dismissLightBox()
+            if (res.status === 10000) {
+                Storage.save({key: 'session', data: res.session})
+                Storage.save({key: 'user', data: res.userinfo}).then(rej => {
+                    DeviceEventEmitter.emit('userRefresh', res.userinfo)
+                })
+                this.props.navigator.pop({animated: true})
+            } else {
+                this.refs.toast.show('手机号或密码错误')
+            }
+        }).catch(err => {
+            this.props.navigator.dismissLightBox()
+            this.refs.toast.show('通讯错误，请重试')
         })
 
     }
@@ -150,9 +173,12 @@ export default class Login extends Component {
                                 style={{fontSize: 18, color: '#fff'}}>
                                 登录
                             </Button>
+
                         </View>
+
                     </ScrollView>
                 </Image>
+                <Toast ref="toast"/>
             </View>
         )
     }

@@ -86,7 +86,7 @@ export default class Vista extends Component {
                         </TouchableOpacity>
                     )}
                 />
-                <Toast ref="toast"/>
+                <Toast ref="toast" position='top'  />
             </View>
         )
     }

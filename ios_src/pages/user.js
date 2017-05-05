@@ -7,13 +7,22 @@ import {
     ListView,
     StyleSheet,
     StatusBar,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter
 }from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Storage from '../../util/Storage'
 
 export default class User extends Component {
+
+    static navigatorStyle = {
+        navBarHidden: true,
+        drawUnderNavBar: true,
+        navBarTranslucent: true
+    }
+
 
     constructor(props) {
         super(props)
@@ -23,16 +32,34 @@ export default class User extends Component {
         }
     }
 
-    static navigatorStyle = {
-        navBarHidden: true,
-        drawUnderNavBar: true,
-        navBarTranslucent: true
-    };
+    componentWillMount() {
+        this._loadUser()
+        this.subscription = DeviceEventEmitter.addListener('userRefresh', (user) => {
+            this.setState({user: user})
+        })
+    }
+
+    componentWillUnmount() {
+        this.subscription.remove()
+    }
+
+
+    _loadUser() {
+        Storage.load({
+            key: 'user',
+        }).then(ret => {
+            console.log(ret)
+            this.setState({user: ret})
+        }).catch(err => {
+            console.log(err)
+            this.setState({user: {}})
+        });
+    }
 
     _renderUsername() {
-        if (!this.state.user.username) {
+        if (!this.state.user.Nickname) {
             return (
-                <TouchableOpacity onPress={()=>{
+                <TouchableOpacity onPress={() => {
                     this._toLogin()
                 }}>
                     <Text style={{
@@ -50,7 +77,7 @@ export default class User extends Component {
                     color: '#fff',
                     marginTop: 20,
                     fontSize: 16
-                }}>{this.state.user.username}</Text>
+                }}>{this.state.user.Nickname}</Text>
             )
         }
 
@@ -106,10 +133,19 @@ export default class User extends Component {
                                         justifyContent: 'flex-end',
                                         flexDirection: 'row'
                                     }}>
+                                        <TouchableOpacity onPress={() => {
+                                            this.props.navigator.push({
+                                                screen: 'UserConfigScreen',
+                                                animated: true,
+                                                title:'设置',
+                                                backButtonTitle: '',
+                                            })
+                                        }}>
                                         <Icon style={{backgroundColor: 'rgba(0,0,0,0)'}} name="cog" size={24}
                                               color="#ffffff"/>
+                                        </TouchableOpacity>
                                     </View>
-                                    <Image style={ styles.avatar }/>
+                                    <Image source={{uri: this.state.user.Avatar}} style={ styles.avatar }/>
                                     {this._renderUsername()}
                                 </View>
                             )}
