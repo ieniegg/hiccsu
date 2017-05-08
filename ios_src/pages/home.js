@@ -5,6 +5,7 @@ import {
 import {TabViewAnimated, TabBar} from 'react-native-tab-view'
 
 import Vista from './home/vista'
+import Recommend from './home/recommend'
 
 export default class Home extends Component {
 
@@ -46,7 +47,7 @@ export default class Home extends Component {
     _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
-                return <View style={[styles.page, {backgroundColor: '#ff4081'}]}/>;
+                return <Recommend {...this.props}/>;
             case '2':
                 return <View style={[styles.page, {backgroundColor: '#673ab7'}]}/>;
             case '3':

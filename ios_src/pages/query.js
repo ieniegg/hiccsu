@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {
     Animated,
     View,
@@ -6,7 +6,7 @@ import {
     Text,
     Dimensions,
     StyleSheet,
-}from 'react-native';
+}from 'react-native'
 
 import {TabViewAnimated, TabViewPagerPan} from 'react-native-tab-view';
 import {BlurView, VibrancyView} from 'react-native-blur'
