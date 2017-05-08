@@ -17,37 +17,13 @@ export default class CampusItem extends Component {
 
     render() {
         return (
-            <View style={{
-                height: 100, backgroundColor: '#fff', shadowColor: '#000000',
-                shadowOpacity: 0.3,
-                shadowRadius: 2,
-                shadowOffset: {
-                    height: 2,
-                }
-            }}>
-                <View style={{flexDirection:'row'}}>
-                    <View style={{width:80}}>
-                        <BlurView
-                            style={{
-                                justifyContent:'center',alignItems:'center',
-                                zIndex: 1,
-                                position: "absolute",
-                                top: 0, left: 0, bottom: 0, right: 0,
-                            }}
-                            blurType="light"
-                            blurAmount={5}
-                        >
-                            <Icon style={{backgroundColor: 'rgba(0,0,0,0)'}} name="credit-card" size={24}
-                                  color="#ffffff"/>
-                        </BlurView>
-                        <Image  source={require('../../../../res/images/register_bg.jpg')}
-                                style={{width:80,height:100}} />
-
-                    </View>
-                    <View style={{flex:1,justifyContent:'center',alignItems:'flex-start',padding:10}}>
-                        <Text style={{fontSize:16}}>教务处账号绑定</Text>
-                        <Text style={{fontSize:12,color:'#7e7e7e',marginTop:5}}>可使用成绩查询、课表查询功能</Text>
-                    </View>
+            <View style={{}}>
+                <View style={{flexDirection: 'column'}}>
+                    <Text style={{fontSize: 14, textAlign: 'center', color: '#7e7e7e'}}>{this.props.title}</Text>
+                    <Text  style={{fontSize: 16, textAlign: 'center', color: '#000',marginTop:8}}>
+                        {this.props.content}
+                        </Text>
+                    <View style={{flex:1,borderColor:'#eee',borderWidth:0.5,marginTop:20,marginBottom:30}} />
                 </View>
             </View>
         )

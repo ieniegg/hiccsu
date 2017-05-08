@@ -48,12 +48,12 @@ export default class UserConfig extends Component {
     }
 
     _renderLogout() {
-        if (this.props.user) {
+        if (this.props.user.Mobile) {
             return (
 
                     <Cell  onPress={()=>{
                         this._logout()
-                    }} title="注销登录" disclosure="chevron-right" icon="sign-out"/>
+                    }} title="注销登录" disclosure="chevron-right" />
 
             )
         }
@@ -67,7 +67,7 @@ export default class UserConfig extends Component {
                 <ScrollView>
                     <View style={{height: 44}}/>
                     <CellGroup>
-                        <Cell title="版本" onPress={() => {}} value="Beta 1.0 (Build 20170505)" icon="versions"/>
+                        <Cell title="版本" onPress={() => {}} value="Beta 1.0 (Build 20170505)" />
                         {
                             this._renderLogout()
                         }

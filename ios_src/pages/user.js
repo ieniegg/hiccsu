@@ -35,7 +35,7 @@ export default class User extends Component {
             user: {},
             index: 0,
             routes: [
-                {key: '1', title: '校园'},
+                {key: '1', title: '我的'},
                 {key: '2', title: '活动'},
                 {key: '3', title: '随拍'}
             ]
@@ -68,7 +68,7 @@ export default class User extends Component {
     _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
-                return <Campus user={this.state.user}/>;
+                return <Campus {...this.props} user={this.state.user}  />;
             case '2':
                 return <View style={[styles.page]}/>;
             case '3':
@@ -223,8 +223,6 @@ const styles = StyleSheet.create({
         paddingTop: 25
     },
     avatar: {
-        borderWidth: 2,
-        borderColor: '#fff',
         marginTop: 30,
         width: 100,
         height: 100,

@@ -25,6 +25,7 @@ export default class Vista extends Component {
             hasNext: false,
             pers: 10,
             refresh: false,
+            loadingText:'下拉刷新',
             ds
         }
         this._vista = [];
@@ -35,9 +36,9 @@ export default class Vista extends Component {
     }
 
     _refreshVista() {
-        this.setState({refresh: true})
+        this.setState({refresh: true,loadingText:'刷新中'})
         HttpUtils.postJson('api/app/vista/list').then(res => {
-            this.setState({refresh: false})
+            this.setState({refresh: false,loadingText:'下拉刷新'})
             if (res.status === 10000) {
                 this._vista = res.vistas
                 this.setState({
@@ -45,12 +46,12 @@ export default class Vista extends Component {
                     hasNext: res.hasNext,
                     ds: this.state.ds.cloneWithRows(this._vista)
                 })
+                this.refs.toast.show('加载完成')
             } else {
                 this.refs.toast.show('随拍获取失败，请稍候再试')
             }
         }).catch(err => {
-            console.log(err)
-            this.setState({refresh: false})
+            this.setState({refresh: false,loadingText:'下拉刷新'})
             this.refs.toast.show('通讯失败，请重试')
         })
     }
@@ -72,7 +73,7 @@ export default class Vista extends Component {
                             refreshing={this.state.refresh}
                             onRefresh={() => this._refreshVista()}
                             tintColor="#e7e7e7"
-                            title="刷新中"
+                            title={this.state.loadingText}
                             titleColor="#e7e7e7"
                             progressBackgroundColor="#ffff00"
                         />

@@ -2,57 +2,21 @@ import React, {Component} from 'react'
 import {Navigation} from 'react-native-navigation'
 import SplashScreen from 'react-native-splash-screen'
 import {registerScreens} from './screens'
-import HttpUtils from '../util/HttpUtils'
-import Storage from '../util/Storage'
-import DeviceInfo from 'react-native-device-info'
+import SyncUtiles from '../util/SyncUtils'
 registerScreens()
 
 class App extends Component {
     constructor(props) {
         super(props)
-        this.syncUser().then(() => {
+        SyncUtiles.syncUser().then(success => {
             SplashScreen.hide()
             this.startApp()
-        }).catch(() => {
-            SplashScreen.hide()
-            this.startApp()
+            if (success) {
+                SyncUtiles.syncCourse(true)
+            }
         })
     }
 
-
-    syncUser() {
-        return new Promise((resolve, reject) => {
-            Storage.load({
-                key: 'session',
-            }).then(session => {
-                HttpUtils.postJson('api/app/user/sync', {
-                    session: session,
-                    device: DeviceInfo.getUniqueID()
-                }).then(res => {
-                    if (res.status === 10000) {
-                        Storage.save({key: 'session', data: res.session})
-                        Storage.save({key: 'user', data: res.userinfo}).then(() => {
-                            resolve()
-                        })
-                    } else {
-                        Storage.remove({
-                            key: 'user'
-                        }).then(() => {
-                            resolve()
-                        })
-                    }
-                }).catch(err => {
-                    Storage.remove({
-                        key: 'user'
-                    })
-                    reject(err)
-                })
-            }).catch(err => {
-                reject(err)
-            })
-
-        })
-    }
 
     startApp() {
         Navigation.startTabBasedApp({
