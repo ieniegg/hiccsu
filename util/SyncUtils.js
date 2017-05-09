@@ -10,7 +10,7 @@ export default class SyncUtils {
             HttpUtils.postJson('api/app/user/course/sync', {
                 force: force
             }).then(res => {
-                if (res.status === 10000) {
+                if (res.status === 10000 && res.course.length > 0) {
                     Storage.save({key: 'course', data: res.course})
                     resolve(res.course)
                 } else {
@@ -21,6 +21,22 @@ export default class SyncUtils {
             })
         })
     }
+
+    static syncConfig() {
+        return new Promise((resolve, reject) => {
+            HttpUtils.get('api/app/config/sync').then(res => {
+                if (res.status === 10000) {
+                    Storage.save({key: 'config', data: res.config})
+                    resolve(res.config)
+                } else {
+                    reject(res)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+
 
     //同步用户
     static syncUser() {
@@ -35,23 +51,23 @@ export default class SyncUtils {
                     if (res.status === 10000) {
                         Storage.save({key: 'session', data: res.session})
                         Storage.save({key: 'user', data: res.userinfo}).then(() => {
-                            resolve(true)
+                            resolve(true, res.userinfo)
                         })
                     } else {
                         Storage.remove({
                             key: 'user'
                         }).then(() => {
-                            resolve(false)
+                            resolve(false, null)
                         })
                     }
                 }).catch(err => {
                     Storage.remove({
                         key: 'user'
                     })
-                    resolve(false)
+                    resolve(false, null)
                 })
             }).catch(err => {
-                resolve(false)
+                resolve(false, null)
             })
 
         })

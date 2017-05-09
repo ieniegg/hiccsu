@@ -3,11 +3,13 @@ import {Navigation} from 'react-native-navigation'
 import SplashScreen from 'react-native-splash-screen'
 import {registerScreens} from './screens'
 import SyncUtiles from '../util/SyncUtils'
+import CourseUtils from '../util/CourseUtils'
 registerScreens()
 
 class App extends Component {
     constructor(props) {
         super(props)
+        SyncUtiles.syncConfig()
         SyncUtiles.syncUser().then(success => {
             SplashScreen.hide()
             this.startApp()
