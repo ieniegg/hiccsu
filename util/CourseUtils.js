@@ -14,7 +14,8 @@ export default class CourseUtils {
 
 
     static getTomorrowCourse() {
-        return this.getCourseByDate(new Date(new Date().getTime() + 24 * 3600))
+        let date = new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+        return this.getCourseByDate(date)
     }
 
     static getTodayCourse(date = new Date()) {
@@ -54,10 +55,13 @@ export default class CourseUtils {
         }
         if (time >= 1940 && time < 2040) {
             if (next) {
-                nowNumber = "0000"
+                nowNumber = "1111"
             } else {
-                nowNumber = "0506"
+                nowNumber = "0910"
             }
+        }
+        if (time >= 2040) {
+            nowNumber = "1111"
         }
         return nowNumber
     }
@@ -65,22 +69,41 @@ export default class CourseUtils {
     static getNowCourses(next = false) {
         let nowCourse = []
         let nowNumber = this.getNowNumber(false)
-
         return new Promise((resolve, reject) => {
             this.getTodayCourse().then(res => {
                 for (i in res) {
                     let course = res[i]
                     if (course.Number >= nowNumber) {
-                        if (course.Number > this.getNowNumber(next)) {
+                        if (course.Number > this.getNowNumber(false)) {
                             if (nowCourse.length > 0) {
-                                resolve(nowCourse)
+                                resolve(nowCourse,false)
                                 return
                             }
                         }
                         nowCourse = nowCourse.concat(course)
                     }
                 }
-                resolve(nowCourse)
+                if (nowCourse.length > 0) {
+                    resolve(nowCourse,false)
+                } else {
+                    //第二天课表
+                    this.getTomorrowCourse().then(tres => {
+                        if (tres.length > 0) {
+                            if (tres.length > 2 && (tres[0].Number === tres[1].Number)) {
+                                nowCourse = nowCourse.concat(tres[0])
+                                nowCourse = nowCourse.concat(tres[1])
+                                resolve(nowCourse,true)
+                            } else {
+                                nowCourse = nowCourse.concat(tres[0])
+                                resolve(nowCourse,true)
+                            }
+                        } else {
+                            resolve(nowCourse,false)
+                        }
+                    }).catch((err) => {
+                        resolve(nowCourse,false)
+                    })
+                }
             }).catch(err => {
                 reject(err)
             })
