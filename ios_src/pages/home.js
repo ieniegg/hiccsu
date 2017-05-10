@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {
-    View, StyleSheet, Dimensions
+    View, StyleSheet, Dimensions,StatusBar
 }from 'react-native'
 import {TabViewAnimated, TabBar} from 'react-native-tab-view'
 
@@ -64,6 +64,9 @@ export default class Home extends Component {
             <View style={{
                 flex: 1
             }}>
+                <StatusBar
+                    barStyle="dark-content"
+                />
                 <TabViewAnimated
                     lazy={true}
                     style={styles.container}

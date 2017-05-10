@@ -17,8 +17,8 @@ export default class CourseUtils {
         return this.getCourseByDate(new Date(new Date().getTime() + 24 * 3600))
     }
 
-    static getTodayCourse() {
-        return this.getCourseByDate(new Date())
+    static getTodayCourse(date = new Date()) {
+        return this.getCourseByDate(date)
     }
 
     static getNowNumber(next = false) {
@@ -38,7 +38,7 @@ export default class CourseUtils {
                 nowNumber = "0304"
             }
         }
-        if (time >= 1200 && time < 1540) {
+        if (time >= 1140 && time < 1540) {
             if (next) {
                 nowNumber = "0708"
             } else {
@@ -64,13 +64,13 @@ export default class CourseUtils {
 
     static getNowCourses(next = false) {
         let nowCourse = []
-        let nowNumber=this.getNowNumber(false)
+        let nowNumber = this.getNowNumber(false)
 
         return new Promise((resolve, reject) => {
             this.getTodayCourse().then(res => {
                 for (i in res) {
                     let course = res[i]
-                    if (course.Number >=nowNumber ) {
+                    if (course.Number >= nowNumber) {
                         if (course.Number > this.getNowNumber(next)) {
                             if (nowCourse.length > 0) {
                                 resolve(nowCourse)

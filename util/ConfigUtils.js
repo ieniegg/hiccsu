@@ -5,13 +5,13 @@ export default class ConfigUtils{
         return new Promise((resolve,reject)=>{
             Storage.load({key:'config'}).then(res=>{
                 resolve(res)
-            }).catch(
+            }).catch(err=>{
                 SyncUtils.syncConfig().then(res=>{
                     resolve(res)
                 }).catch(err=>{
                     reject(err)
                 })
-            )
+            })
         })
     }
 }
