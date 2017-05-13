@@ -19,7 +19,8 @@ export default class Recommend extends Component {
         super(props)
         this.state = {
             ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-            now: []
+            now: [],
+            tomorrow: false
         }
     }
 
@@ -38,9 +39,10 @@ export default class Recommend extends Component {
     }
 
     _loadnNowCourse() {
-        CourseUtils.getNowCourses().then(res => {
+        CourseUtils.getNowCourses().then((res, tomorrow) => {
             this.setState({
-                now: res
+                now: res,
+                tomorrow: tomorrow
             })
         })
     }
