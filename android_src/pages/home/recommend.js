@@ -10,7 +10,6 @@ import {
 }from 'react-native'
 
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
-import {BlurView, VibrancyView} from 'react-native-blur'
 
 import CourseUtils from '../../../util/CourseUtils'
 
@@ -18,6 +17,7 @@ export default class Recommend extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            viewRef: null,
             ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
             now: [],
             tomorrow: false
@@ -44,7 +44,7 @@ export default class Recommend extends Component {
                 now: res.now,
                 tomorrow: res.tomorrow
             })
-        })
+        }).catch(err=>{})
     }
 
     _renderNowCourse() {
@@ -122,27 +122,18 @@ export default class Recommend extends Component {
                                   backgroundSpeed={10}
                                   renderBackground={() => (
                                       <View key="background">
-                                          <BlurView
-                                              style={{
-                                                  zIndex: 1,
-                                                  position: "absolute",
-                                                  top: 0, left: 0, bottom: 0, right: 0,
-                                              }}
-                                              blurType="dark"
-                                              blurAmount={5}
-                                          />
                                           <Image style={{
                                               width: window.width,
                                               height: PARALLAX_HEADER_HEIGHT,
                                               resizeMode: Image.resizeMode.cover
                                           }} source={require('../../../res/images/now_bg.jpg')}/>
                                           <View style={{
+                                              backgroundColor:'rgba(0,0,0,0.5)',
                                               position: 'absolute',
                                               top: 0,
                                               width: window.width,
                                               height: PARALLAX_HEADER_HEIGHT
-                                          }}/>
-
+                                          }}/>-
                                       </View>
                                   )}
                                   renderForeground={() => (

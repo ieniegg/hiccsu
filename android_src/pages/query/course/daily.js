@@ -10,7 +10,6 @@ import {
     ListView
 }from 'react-native'
 
-import {BlurView, VibrancyView} from 'react-native-blur'
 import Icon from 'react-native-vector-icons/Octicons'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
@@ -25,6 +24,7 @@ export default class DailyCourse extends Component {
         let millisecond = 1000 * 60 * 60 * 24
         let minusDay = week != 0 ? week - 1 : 6
         this.state = {
+            viewRef: null,
             tomorrow: false,
             date: new Date(),
             now: [],
@@ -294,15 +294,6 @@ export default class DailyCourse extends Component {
                                       <View key="background">
                                           <Image style={{height: 300, width: Dimensions.get('window').width}}
                                                  source={require('../../../../res/images/daily_bg.jpg')}>
-                                              <BlurView
-                                                  style={{
-                                                      zIndex: -1,
-                                                      position: "absolute",
-                                                      top: 0, left: 0, bottom: 0, right: 0,
-                                                  }}
-                                                  blurType="light"
-                                                  blurAmount={5}
-                                              />
                                           </Image>
                                       </View>
                                   )}

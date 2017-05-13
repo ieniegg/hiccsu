@@ -39,7 +39,7 @@ export default class Home extends Component {
 
     _renderHeader = (props) => {
         return <TabBar
-            style={{backgroundColor: 'rgba(255, 255, 255, 1)', width: window.width, position: 'absolute'}}
+            style={{backgroundColor: 'rgba(255, 255, 255, 1)'}}
             labelStyle={{color: '#000'}}
             indicatorStyle={{backgroundColor: '#000'}} {...props} />
     }

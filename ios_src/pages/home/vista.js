@@ -92,7 +92,6 @@ export default class Vista extends Component {
                     autoLoadMore={true}
                     enableEmptySections={true}
                     style={{
-                        marginTop:44,
                         flex: 1,
                         width: Dimensions.get('window').width
                     }}
