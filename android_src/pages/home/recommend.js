@@ -133,7 +133,7 @@ export default class Recommend extends Component {
                                               top: 0,
                                               width: window.width,
                                               height: PARALLAX_HEADER_HEIGHT
-                                          }}/>-
+                                          }}/>
                                       </View>
                                   )}
                                   renderForeground={() => (

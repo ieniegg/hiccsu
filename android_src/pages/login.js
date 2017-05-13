@@ -11,7 +11,7 @@ import {
 }from 'react-native';
 import Button from 'react-native-button'
 import Toast, {DURATION} from 'react-native-easy-toast'
-
+import SyncUtiles from '../../util/SyncUtils'
 import HttpUtils from '../../util/HttpUtils'
 import DeviceInfo from 'react-native-device-info'
 import Storage from '../../util/Storage'
@@ -54,6 +54,7 @@ export default class Login extends Component {
                 Storage.save({key: 'user', data: res.userinfo}).then(rej => {
                     DeviceEventEmitter.emit('userRefresh', res.userinfo)
                 })
+                SyncUtiles.syncCourse(true)
                 this.props.navigator.pop({animated: true})
             } else {
                 this.refs.toast.show('手机号或密码错误')
