@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {
-    View, StyleSheet, Dimensions,StatusBar
+    View, StyleSheet, Dimensions, StatusBar,DeviceEventEmitter
 }from 'react-native'
 import {TabViewAnimated, TabBar} from 'react-native-tab-view'
 
 import Vista from './home/vista'
 import Recommend from './home/recommend'
+import SyncUtiles from '../../util/SyncUtils'
 
 export default class Home extends Component {
 
@@ -22,12 +23,23 @@ export default class Home extends Component {
         }
     }
 
+
+    componentWillMount() {
+        this.subscription = DeviceEventEmitter.addListener('userRefresh', (user) => {
+            SyncUtiles.syncCourse(true)
+        })
+    }
+
+    componentWillUnmount() {
+        this.subscription.remove()
+    }
+
     static navigatorStyle = {
         drawUnderNavBar: true,
         navBarTranslucent: false,
         navBarNoBorder: true,
         navBarHideOnScroll: false,
-        statusBarTextColorScheme:'dark',
+        statusBarTextColorScheme: 'dark',
         statusBarTextColorSchemeSingleScreen: 'dark',
         drawUnderTabBar: true,
         statusBarHideWithNavBar: true

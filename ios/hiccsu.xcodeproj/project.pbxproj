@@ -264,13 +264,6 @@
 			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
 			remoteInfo = RNDeviceInfo;
 		};
-		A7D8A6231EC2E5A800C8CBF7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6377BD138E0E472F84591865 /* RNVectorIcons.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A39873CE1EA65EE60051E01A;
-			remoteInfo = "RNVectorIcons-tvOS";
-		};
 		A7EE00B81EBA23640095E188 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A7EE009B1EBA23630095E188 /* ReactNativeNavigation.xcodeproj */;
@@ -582,7 +575,6 @@
 			isa = PBXGroup;
 			children = (
 				A70604861EB8DB4D00FF009C /* libRNVectorIcons.a */,
-				A7D8A6241EC2E5A800C8CBF7 /* libRNVectorIcons-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1014,13 +1006,6 @@
 			remoteRef = A76E8D6A1EBB893900458E50 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A7D8A6241EC2E5A800C8CBF7 /* libRNVectorIcons-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNVectorIcons-tvOS.a";
-			remoteRef = A7D8A6231EC2E5A800C8CBF7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		A7EE00B91EBA23640095E188 /* libReactNativeNavigation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1262,7 +1247,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.lizekun.hiccsu;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ccsu.datalab.hiccsu;
 				PRODUCT_NAME = hiccsu;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1289,7 +1274,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.lizekun.hiccsu;
+				PRODUCT_BUNDLE_IDENTIFIER = org.ccsu.datalab.hiccsu;
 				PRODUCT_NAME = hiccsu;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

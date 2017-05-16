@@ -55,7 +55,6 @@ export default class Login extends Component {
                 Storage.save({key: 'user', data: res.userinfo}).then(rej => {
                     DeviceEventEmitter.emit('userRefresh', res.userinfo)
                 })
-                SyncUtiles.syncCourse(true)
                 this.props.navigator.pop({animated: true})
             } else {
                 this.refs.toast.show('手机号或密码错误')

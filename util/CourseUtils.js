@@ -76,7 +76,7 @@ export default class CourseUtils {
                     if (course.Number >= nowNumber) {
                         if (course.Number > this.getNowNumber(false)) {
                             if (nowCourse.length > 0) {
-                                resolve({'now':nowCourse,'tomorrow':false})
+                                resolve({'now': nowCourse, 'tomorrow': false})
                                 return
                             }
                         }
@@ -84,7 +84,7 @@ export default class CourseUtils {
                     }
                 }
                 if (nowCourse.length > 0) {
-                    resolve({'now':nowCourse,'tomorrow':false})
+                    resolve({'now': nowCourse, 'tomorrow': false})
                 } else {
                     //第二天课表
                     this.getTomorrowCourse().then(tres => {
@@ -92,16 +92,16 @@ export default class CourseUtils {
                             if (tres.length > 2 && (tres[0].Number === tres[1].Number)) {
                                 nowCourse = nowCourse.concat(tres[0])
                                 nowCourse = nowCourse.concat(tres[1])
-                                resolve({'now':nowCourse,'tomorrow':true})
+                                resolve({'now': nowCourse, 'tomorrow': true})
                             } else {
                                 nowCourse = nowCourse.concat(tres[0])
-                                resolve({'now':nowCourse,'tomorrow':true})
+                                resolve({'now': nowCourse, 'tomorrow': true})
                             }
                         } else {
-                            resolve({'now':nowCourse,'tomorrow':false})
+                            resolve({'now': nowCourse, 'tomorrow': false})
                         }
                     }).catch((err) => {
-                        resolve({'now':nowCourse,'tomorrow':false})
+                        resolve({'now': nowCourse, 'tomorrow': false})
                     })
                 }
             }).catch(err => {
